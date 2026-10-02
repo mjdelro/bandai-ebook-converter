@@ -1,4 +1,4 @@
-# Manual Fold
+# Gundam Ebook Converter
 
 A private, browser-only converter for turning Bandai instruction-manual PDFs into fixed-layout EPUBs for KOReader.
 
