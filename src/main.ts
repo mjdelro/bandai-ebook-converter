@@ -1,4 +1,10 @@
 import "./style.css";
+import "@fontsource/atkinson-hyperlegible-next/latin-400.css";
+import "@fontsource/atkinson-hyperlegible-next/latin-600.css";
+import "@fontsource/atkinson-hyperlegible-next/latin-700.css";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-600.css";
+import "@fontsource/ibm-plex-sans/latin-700.css";
 import {
   analyzePdf,
   convertManual,
@@ -19,11 +25,17 @@ let isConverting = false;
 app.innerHTML = `
   <header class="hero">
     <nav class="nav shell" aria-label="Primary navigation">
-      <a class="brand" href="./" aria-label="Manual Fold home">
-        <span class="brand-mark">MF</span>
-        <span>Manual Fold</span>
+      <a class="brand" href="./" aria-label="Bandai Ebook Converter home">
+        <span class="brand-mark">BE</span>
+        <span>Bandai Ebook Converter</span>
       </a>
-      <a class="github-link" href="https://github.com/mjdelro/bandai-manual-epub" target="_blank" rel="noreferrer">Source ↗</a>
+      <div class="nav-actions">
+        <a class="github-link" href="https://github.com/mjdelro/bandai-ebook-converter" target="_blank" rel="noreferrer">Source ↗</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 14.1A8.2 8.2 0 0 1 9.9 3.3 9 9 0 1 0 20.7 14.1Z"></path></svg>
+          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>
+        </button>
+      </div>
     </nav>
     <div class="hero-content shell">
       <p class="eyebrow">KOReader-ready, without the cleanup</p>
@@ -92,6 +104,27 @@ const reviewConfirm = document.querySelector<HTMLInputElement>("#review-confirm"
 const convertButton = document.querySelector<HTMLButtonElement>("#convert-button")!;
 const dpiSelect = document.querySelector<HTMLSelectElement>("#dpi-select")!;
 const progressArea = document.querySelector<HTMLElement>("#progress-area")!;
+const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle")!;
+
+function currentTheme(): "light" | "dark" {
+  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+}
+
+function updateThemeControl(): void {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  themeToggle.setAttribute("aria-label", `Switch to ${next} mode`);
+  themeToggle.title = `Switch to ${next} mode`;
+}
+
+themeToggle.addEventListener("click", () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  document.documentElement.style.colorScheme = next;
+  document.querySelector<HTMLMetaElement>("#theme-color-meta")?.setAttribute("content", next === "dark" ? "#111111" : "#f5f6f4");
+  try { localStorage.setItem("bandai-ebook-color-scheme", next); } catch { /* Storage may be disabled. */ }
+  updateThemeControl();
+});
+updateThemeControl();
 
 fileInput.addEventListener("change", () => void addFiles(fileInput.files));
 dropZone.addEventListener("dragover", (event) => {

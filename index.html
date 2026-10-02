@@ -7,8 +7,25 @@
       name="description"
       content="Convert Bandai instruction-manual PDFs into fixed-layout EPUBs for KOReader, entirely in your browser."
     />
-    <meta name="theme-color" content="#111312" />
-    <title>Manual Fold — PDF to EPUB</title>
+    <meta name="theme-color" id="theme-color-meta" content="#f5f6f4" />
+    <title>Bandai Ebook Converter — PDF to EPUB</title>
+    <script>
+      (() => {
+        const key = "bandai-ebook-color-scheme";
+        let theme = "light";
+        try {
+          const saved = localStorage.getItem(key);
+          theme = saved === "light" || saved === "dark"
+            ? saved
+            : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        } catch {
+          if (matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document.getElementById("theme-color-meta")?.setAttribute("content", theme === "dark" ? "#111111" : "#f5f6f4");
+      })();
+    </script>
   </head>
   <body>
     <main id="app"></main>

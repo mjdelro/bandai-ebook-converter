@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/bandai-manual-epub/",
+  base: "/bandai-ebook-converter/",
   build: {
     target: "es2022",
     sourcemap: true,

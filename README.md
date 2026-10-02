@@ -1,6 +1,6 @@
-# Gundam Ebook Converter
+# Bandai Ebook Converter
 
-A private, browser-only converter for turning Bandai instruction-manual PDFs into fixed-layout EPUBs for KOReader.
+A privacy-first, browser-only converter for turning Bandai instruction-manual PDFs into fixed-layout EPUBs for KOReader.
 
 ## Supported layouts
 
