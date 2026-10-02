@@ -290,7 +290,7 @@ select:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px
   cursor: pointer;
   transition: filter 150ms ease, box-shadow 150ms ease;
 }
-.download-button { margin-top: 20px; padding: 11px 15px; }
+.download-button { padding: 12px 15px; }
 .download-button:hover, .primary-button:hover:not(:disabled) { filter: brightness(1.08); box-shadow: var(--hover-accent-ring); }
 .error-message { color: #b24b3b; font-size: 13px; }
 
@@ -321,6 +321,16 @@ select:focus-visible { outline: 2px solid var(--main-color); outline-offset: 2px
 .progress-row span { color: var(--text-muted); font-size: 12px; }
 .progress-row.failed span { color: #c46d58; }
 progress { width: 100%; accent-color: var(--site-accent); }
+.download-area { grid-column: 1 / -1; }
+.download-area:empty { display: none; }
+.download-area:not(:empty) { margin-top: 4px; padding-top: 26px; border-top: 1px solid var(--border-soft); }
+.download-heading { margin-bottom: 15px; }
+.download-heading .step-label { margin-bottom: 6px; }
+.download-heading h3 { margin: 0; font-size: 21px; letter-spacing: -0.015em; }
+.download-list { display: grid; gap: 10px; }
+.download-list .download-button { justify-content: space-between; gap: 18px; text-align: left; }
+.download-list .download-button span { font-weight: 400; opacity: 0.82; }
+.download-list .download-button strong { overflow-wrap: anywhere; text-align: right; }
 .footer { display: flex; justify-content: space-between; gap: 20px; margin-top: 65px; padding: 30px 0 55px; border-top: 1px solid var(--border-soft); color: var(--text-muted); font-size: 12px; }
 
 @media (max-width: 760px) {

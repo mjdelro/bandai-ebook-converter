@@ -86,6 +86,7 @@ app.innerHTML = `
         <button id="convert-button" class="primary-button" disabled>Convert manuals</button>
       </div>
       <div id="progress-area" class="progress-area" aria-live="polite"></div>
+      <div id="download-area" class="download-area" aria-live="polite"></div>
     </section>
   </section>
 
@@ -104,6 +105,7 @@ const reviewConfirm = document.querySelector<HTMLInputElement>("#review-confirm"
 const convertButton = document.querySelector<HTMLButtonElement>("#convert-button")!;
 const dpiSelect = document.querySelector<HTMLSelectElement>("#dpi-select")!;
 const progressArea = document.querySelector<HTMLElement>("#progress-area")!;
+const downloadArea = document.querySelector<HTMLElement>("#download-area")!;
 const themeToggle = document.querySelector<HTMLButtonElement>("#theme-toggle")!;
 
 function currentTheme(): "light" | "dark" {
@@ -216,7 +218,6 @@ function renderManuals(): void {
           <label>Layout <select data-action="layout" data-id="${manual.id}">${layoutOptions(manual.layout)}</select></label>
         </div>
         ${panelPicker(manual)}
-        ${manual.status === "done" && manual.outputUrl ? `<a class="download-button" href="${manual.outputUrl}" download="${escapeHtml(outputName(manual.file))}">Download ${escapeHtml(outputName(manual.file))}</a>` : ""}
         ${manual.status === "error" ? `<p class="error-message">${escapeHtml(manual.error ?? "Conversion failed.")}</p>` : ""}
       </div>
     </article>`;
@@ -236,7 +237,29 @@ function renderManuals(): void {
   const summary = document.querySelector<HTMLElement>("#plan-summary")!;
   const pages = manuals.reduce((sum, manual) => sum + outputPageCount(manual), 0);
   summary.textContent = `${manuals.length} EPUB${manuals.length === 1 ? "" : "s"}, ${pages} fixed-layout pages total.`;
+  renderDownloads();
   updateConvertState();
+}
+
+function renderDownloads(): void {
+  const completed = manuals.filter(
+    (manual): manual is ManualAnalysis & { outputUrl: string } => manual.status === "done" && Boolean(manual.outputUrl),
+  );
+  if (!completed.length) {
+    downloadArea.innerHTML = "";
+    return;
+  }
+  downloadArea.innerHTML = `
+    <div class="download-heading">
+      <p class="step-label">Downloads</p>
+      <h3>Your EPUBs are ready</h3>
+    </div>
+    <div class="download-list">
+      ${completed.map((manual) => `<a class="download-button" href="${manual.outputUrl}" download="${escapeHtml(outputName(manual.file))}">
+        <span>Download</span>
+        <strong>${escapeHtml(outputName(manual.file))}</strong>
+      </a>`).join("")}
+    </div>`;
 }
 
 function removeManual(id: string): void {
