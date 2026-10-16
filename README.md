@@ -1,6 +1,6 @@
-# Bandai Ebook Converter
+# Bandai ebook converter
 
-A privacy-first, browser-only converter for turning Bandai instruction-manual PDFs into fixed-layout EPUBs for KOReader.
+A browser-only converter that turns Bandai instruction-manual PDFs into fixed-layout EPUBs for KOReader. Files stay on the device.
 
 ## Supported layouts
 
